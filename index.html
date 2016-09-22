@@ -1,0 +1,43 @@
+<html>
+
+<h1 id="name"></h1>
+<img src="" id="image"></img>
+
+</p>
+
+<input type="submit" value="Next" id = "button"/>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+<script>
+
+var allResults = null
+
+var renderPerson = function(firstName, lastName, imageUrl) {
+	$('#name').html(firstName+" "+lastName)
+	$("#image").attr("src",imageUrl);
+}
+
+var onceIHaveData =  function(data) {
+	
+	allResults = data.results
+	console.log(data)
+	var currentResult = data.results[0]
+
+	renderPerson(currentResult.name.first, currentResult.name.last, currentResult.picture.large)
+
+}
+
+	var i = 1 
+
+	$("#button").click(function(){
+		renderPerson(allResults[i].name.first, allResults[i].name.last, allResults[i].picture.large)
+
+        i = (i +1) % allResults.length
+    });
+
+$.getJSON('http://api.randomuser.me/?results=20',onceIHaveData)
+
+</script>
+
+</html>
